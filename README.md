@@ -1,0 +1,1 @@
+# blog_in_django
