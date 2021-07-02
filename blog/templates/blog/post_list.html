@@ -135,12 +135,17 @@
                     {% for p in post_list %}
                     <!-- Featured blog post-->
                     <div class="card mb-4">
-                        <a href="#!"
-                            ><img
-                                class="card-img-top"
+                        <a href="{{ p.get_absolute_url }}">
+                            {% if p.head_image %}
+                            <img class="card-img-top"
                                 src="{{ p.head_image.url }}"
-                                alt="..."
-                        /></a>
+                                alt="..."/>
+                            {% else %}
+                            <img class="card-img-top"
+                                    src="https://picsum.photos/seed/{{ p.id }}/800/400"
+                                    alt="..."/>
+                            {% endif %}
+                        </a>
                         <div class="card-body">
                             <div class="small text-muted">{{ p.created_at }}</div>
                             <h2 class="card-title">{{ p.title }}</h2>
