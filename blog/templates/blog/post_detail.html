@@ -15,7 +15,7 @@
             {% endif %}
             <!-- Post meta content-->
             <div class="text-muted fst-italic mb-2">
-                {{ post.created_at }}
+                {{ post.created_at }} by {{ post.author | upper }}
             </div>
             <!-- Post categories-->
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
