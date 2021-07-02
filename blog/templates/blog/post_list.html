@@ -3,7 +3,11 @@
 <html lang="ko">
     <head>
         <title>Blog</title>
-        <link href="{% static 'blog/bootstrap/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link
+            href="{% static 'blog/bootstrap/bootstrap.min.css' %}"
+            rel="stylesheet"
+            media="screen"
+        />
         <script src="https://kit.fontawesome.com/d99b8e64c6.js" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -128,37 +132,45 @@
         </div>
         <div class="container my-3">
             <div class="row">
-                <div class="col-md-8 col-lg-9">
+                <div class="col-md-8 col-lg-9" id="main-area">
                     <h1>
                         Blog
                     </h1>
+                    {% if post_list.exists %}
                     {% for p in post_list %}
                     <!-- Featured blog post-->
                     <div class="card mb-4">
                         <a href="{{ p.get_absolute_url }}">
                             {% if p.head_image %}
-                            <img class="card-img-top"
-                                src="{{ p.head_image.url }}"
-                                alt="..."/>
+                            <img class="card-img-top" src="{{ p.head_image.url }}" alt="..." />
                             {% else %}
-                            <img class="card-img-top"
-                                    src="https://picsum.photos/seed/{{ p.id }}/800/400"
-                                    alt="..."/>
+                            <img
+                                class="card-img-top"
+                                src="https://picsum.photos/seed/{{ p.id }}/800/400"
+                                alt="..."
+                            />
                             {% endif %}
                         </a>
                         <div class="card-body">
                             <div class="small text-muted">{{ p.created_at }}</div>
                             <h2 class="card-title">{{ p.title }}</h2>
                             {% if p.hook_text %}
-                                <h5 class="text-muted">
-                                    {{ p.hook_text }}
+                            <h5 class="text-muted">
+                                {{ p.hook_text }}
                             </h5>
                             {% endif %}
                             <p class="card-text">{{ p.content | truncatewords:45 }}</p>
-                            <a class="btn btn-primary" href="{{ p.get_absolute_url }}">Read more →</a>
+                            <a class="btn btn-primary" href="{{ p.get_absolute_url }}"
+                                >Read more →</a
+                            >
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <h3>
+                        아직 게시물이 없습니다
+                    </h3>
+                    {% endif %}
                     <!-- Pagination-->
                     <nav aria-label="Pagination">
                         <hr class="my-0" />
