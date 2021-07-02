@@ -51,6 +51,11 @@
                         <header class="mb-4">
                             <!-- Post title-->
                             <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                            {% if post.hook_text %}
+                            <h5 class="text-muted">
+                                {{ post.hook_text }}
+                            </h5>
+                            {% endif %}
                             <!-- Post meta content-->
                             <div class="text-muted fst-italic mb-2">
                                 {{ post.created_at }}
