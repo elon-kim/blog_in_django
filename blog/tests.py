@@ -169,3 +169,30 @@ class TestView(TestCase):
         self.assertIn(self.post_001.title, main_area.text)
         self.assertNotIn(self.post_002.title, main_area.text)
         self.assertNotIn(self.post_003.title, main_area.text)
+    
+    def test_create_post(self):
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEqual(response.status_code, 200)
+        
+        self.client.login(username='john1', password='abdsdfsc@1')
+        response = self.client.get('/blog/create_post/')
+        self.assertEqual(response.status_code, 200)
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        self.navbar_test(soup)
+        
+        self.assertEqual('Create Post - Blog', soup.title.text)
+        main_area = soup.find('div', id='main-area')
+        self.assertIn('Create New Post', main_area.text)
+        
+        self.client.post(
+            '/blog/create_post/',
+            {
+                'title' : 'what a wonderful world',
+                'content' : 'you too',
+            }
+        )
+        last_post = Post.objects.last()
+        self.assertEqual(last_post.title, 'what a wonderful world')
+        self.assertEqual(last_post.author.username, 'john1')
