@@ -7,6 +7,7 @@
         <!-- Post header-->
         <header class="mb-4">
             <!-- Post title-->
+            <span class="badge bg-secondary float-end">{% if post.category %}{{ post.category }}{% else %}미분류{% endif %}</span>
             <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
             {% if post.hook_text %}
             <h5 class="text-muted">
