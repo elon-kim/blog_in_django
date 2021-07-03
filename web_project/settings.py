@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'single_pages',
     "django_static_fontawesome",
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

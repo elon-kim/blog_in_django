@@ -6,7 +6,7 @@
     {% if post_list.exists %}
     {% for p in post_list %}
     <!-- Featured blog post-->
-    <div class="card mb-4">
+    <div class="card mb-4" id="post-{{ p.pk }}">
         <a href="{{ p.get_absolute_url }}">
             {% if p.head_image %}
             <img class="card-img-top" src="{{ p.head_image.url }}" alt="..." />
@@ -19,6 +19,8 @@
             {% endif %}
         </a>
         <div class="card-body">
+            <span class="badge bg-secondary float-end">{% if p.category %}{{ p.category }}{% else %}미분류{% endif %}</span>
+            
             <div class="small text-muted">{{ p.created_at }} by {{ p.author | upper }}</div>
             <h2 class="card-title">{{ p.title }}</h2>
             {% if p.hook_text %}
