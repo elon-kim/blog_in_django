@@ -197,11 +197,17 @@ class TestView(TestCase):
             {
                 'title' : 'what a wonderful world',
                 'content' : 'you too',
+                'tags_str' : 'new tag; 한글 태그, python'
             }
         )
         last_post = Post.objects.last()
         self.assertEqual(last_post.title, 'what a wonderful world')
         self.assertEqual(last_post.author.username, 'john1')
+        
+        self.assertEqual(last_post.tags.count(), 3)
+        self.assertTrue(Tag.objects.get(name='new tag'))
+        self.assertTrue(Tag.objects.get(name='한글 태그'))
+        self.assertEqual(Tag.objects.count(), 5)
 
     def test_update_post(self):
         update_post_url = f'/blog/update_post/{self.post_003.pk}/'
