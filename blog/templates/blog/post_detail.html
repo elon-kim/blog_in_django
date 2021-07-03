@@ -15,9 +15,16 @@
             </h5>
             {% endif %}
             <!-- Post meta content-->
+            <hr/>
             <div class="text-muted fst-italic mb-2">
-                {{ post.created_at }} by {{ post.author | upper }}
+                {{ post.created_at }} &nbsp;&nbsp;by {{ post.author | upper }}
+                {% if user.is_authenticated and user == post.author %}
+                    <a class="btn btn-info btn-sm float-end" href="/blog/update_post/{{ post.pk }}/" role="button">
+                        <i class="fas fa-pen"></i> Edit Post
+                    </a>
+                {% endif %}
             </div>
+            <hr/>
             <!-- Post categories-->
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
