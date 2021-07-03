@@ -11,7 +11,9 @@ class TestView(TestCase):
         self.client = Client()
         self.user_john1 = User.objects.create_user(username='john1', password='abdsdfsc@1')
         self.user_john2 = User.objects.create_user(username='john2', password='abdsdfsc@1')
-
+        self.user_john1.is_staff = True
+        self.user_john1.save()
+        
         self.category_programming = Category.objects.create(name='programming', slug='programming')
         self.category_music = Category.objects.create(name='music', slug='music')
         
@@ -171,6 +173,10 @@ class TestView(TestCase):
         self.assertNotIn(self.post_003.title, main_area.text)
     
     def test_create_post(self):
+        response = self.client.get('/blog/create_post/')
+        self.assertNotEqual(response.status_code, 200)
+        
+        self.client.login(username='john2', password='abdsdfsc@1')
         response = self.client.get('/blog/create_post/')
         self.assertNotEqual(response.status_code, 200)
         
