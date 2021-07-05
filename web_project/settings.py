@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'single_pages',
     "django_static_fontawesome",
     'django_extensions',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,5 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
