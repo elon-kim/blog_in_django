@@ -131,4 +131,5 @@ dmypy.json
 # option
 .temp
 _media/
+_static/
 migrations/
