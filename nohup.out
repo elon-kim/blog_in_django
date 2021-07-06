@@ -1,0 +1,5 @@
+Watching for file changes with StatReloader
+[06/Jul/2021 17:43:04] "GET /blog/2/ HTTP/1.1" 200 11375
+[06/Jul/2021 17:43:22] "GET /blog/2/ HTTP/1.1" 200 11375
+[06/Jul/2021 17:44:26] "GET /blog/2/ HTTP/1.1" 200 11375
+[06/Jul/2021 17:44:37] "GET /blog/2/ HTTP/1.1" 200 11375
