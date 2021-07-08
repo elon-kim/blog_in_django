@@ -32,9 +32,6 @@
                 {% endif %}
             </div>
             <hr />
-            <!-- Post categories-->
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
         </header>
         <!-- Preview image figure-->
         <figure class="mb-4">
@@ -124,7 +121,8 @@
                             alt="..."
                         />
                     </div>
-                    {% if user.is_authenticated and comment.author == user %}
+                    {% if user.is_authenticated %}
+                    {% if comment.author == user or user.is_superuser %}
                     <div class="float-end">
                         <a
                             role="button"
@@ -186,6 +184,7 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endif %}
                     <div class="ms-3">
                         <div>
