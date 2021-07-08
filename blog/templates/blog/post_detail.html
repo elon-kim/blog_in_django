@@ -113,16 +113,17 @@
                 <!-- Single comment-->
                 {% if post.comment_set.exists %}
                 {% for comment in post.comment_set.iterator %}
-                <div id="comment-{{ comment.pk }}">
-                    <div class="d-flex mr-3">
-                        <img
-                            class="rounded-circle"
-                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
-                            alt="..."
-                        />
-                    </div>
+                <div class="d-flex media" id="comment-{{ comment.pk }}">
+                    <img
+                        class="me-3 rounded-circle"
+                        src="{{ comment.get_avatar_url }}"
+                        alt="{{ comment.author }}"
+                        width="60px"
+                        height="60px"
+                    />
                     {% if user.is_authenticated %}
                     {% if comment.author == user or user.is_superuser %}
+                    <div class="media-body flex-grow-1"> 
                     <div class="float-end">
                         <a
                             role="button"
@@ -186,7 +187,7 @@
                     </div>
                     {% endif %}
                     {% endif %}
-                    <div class="ms-3">
+                    <div class="ms-0">
                         <div>
                             <div class="fw-bold">
                                 {{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted"
@@ -203,6 +204,7 @@
                             {% endif %}
                             <br />
                         </div>
+                    </div>
                     </div>
                 </div>
                 {% endfor %}
