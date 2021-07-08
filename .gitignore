@@ -133,3 +133,4 @@ dmypy.json
 _media/
 _static/
 migrations/
+nohup.out

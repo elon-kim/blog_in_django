@@ -1,6 +1,6 @@
-{% extends 'blog/base.html' %} 
+{% extends 'blog/base.html' %}
 {% load crispy_forms_tags %}
-{% block head_title %} {{ post.title }} - Blog {% endblock %} 
+{% block head_title %} {{ post.title }} - Blog {% endblock %}
 {% block main_area %}
 <div id="post-area">
     <!-- Post content-->
@@ -8,7 +8,9 @@
         <!-- Post header-->
         <header class="mb-4">
             <!-- Post title-->
-            <span class="badge bg-secondary float-end">{% if post.category %}{{ post.category }}{% else %}미분류{% endif %}</span>
+            <span class="badge bg-secondary float-end"
+                >{% if post.category %}{{ post.category }}{% else %}미분류{% endif %}</span
+            >
             <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
             {% if post.hook_text %}
             <h5 class="text-muted">
@@ -16,16 +18,20 @@
             </h5>
             {% endif %}
             <!-- Post meta content-->
-            <hr/>
+            <hr />
             <div class="text-muted fst-italic mb-2">
-                {{ post.created_at }} &nbsp;&nbsp;by {{ post.author | upper }}
+                {{ post.created_at }} &nbsp;&nbsp;by {{ post.author | upper }} 
                 {% if user.is_authenticated and user == post.author %}
-                    <a class="btn btn-info btn-sm float-end" href="/blog/update_post/{{ post.pk }}/" role="button">
-                        <i class="fas fa-pen"></i> Edit Post
-                    </a>
+                <a
+                    class="btn btn-info btn-sm float-end"
+                    href="/blog/update_post/{{ post.pk }}/"
+                    role="button"
+                >
+                    <i class="fas fa-pen"></i> Edit Post
+                </a>
                 {% endif %}
             </div>
-            <hr/>
+            <hr />
             <!-- Post categories-->
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
@@ -48,12 +54,14 @@
                 {{ post.get_content_markdown | safe }}
             </p>
             {% if post.tags.exists %}
-                <i class="fas fa-tag"></i>
-                {% for tag in post.tags.all %}
-                    <a href="{{ tag.get_absolute_url }}"><span class="badge bg-warning text-dark">{{ tag }}</span></a>
-                {% endfor %}
-                <br/>
-                <br/>
+            <i class="fas fa-tag"></i>
+            {% for tag in post.tags.all %}
+            <a href="{{ tag.get_absolute_url }}"
+                ><span class="badge bg-warning text-dark">{{ tag }}</span></a
+            >
+            {% endfor %}
+            <br />
+            <br />
             {% endif %}
             {% if post.file_upload %}
             <a href="{{ post.file_upload.url }}" class="btn btn-outline-success" role="button">
@@ -81,44 +89,127 @@
             <div class="card-body">
                 <!-- Comment form-->
                 {% if user.is_authenticated %}
-                <form class="mb-4" id="comment-form" method="POST" action="{{ post.get_absolute_url }}new_comment/">
+                <form
+                    class="mb-4"
+                    id="comment-form"
+                    method="POST"
+                    action="{{ post.get_absolute_url }}new_comment/"
+                >
                     <div class="form-group">
-                        {% csrf_token %}
-                        {{ comment_form | crispy }}
+                        {% csrf_token %} {{ comment_form | crispy }}
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">
                         Submit
                     </button>
                 </form>
                 {% else %}
-                <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">
+                <a
+                    role="button"
+                    class="btn btn-outline-dark btn-block btn-sm"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#loginModal"
+                >
                     Log in and leave a comment
                 </a>
                 {% endif %}
                 <!-- Single comment-->
                 {% if post.comment_set.exists %}
                 {% for comment in post.comment_set.iterator %}
-                <div class="d-flex" id="comment-{{ comment.pk }}">
-                    <div class="flex-shrink-0">
+                <div id="comment-{{ comment.pk }}">
+                    <div class="d-flex mr-3">
                         <img
                             class="rounded-circle"
                             src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
                             alt="..."
                         />
                     </div>
+                    {% if user.is_authenticated and comment.author == user %}
+                    <div class="float-end">
+                        <a
+                            role="button"
+                            class="btn btn-sm btn-info"
+                            id="comment-{{ comment.pk }}-update-btn"
+                            href="/blog/update_comment/{{ comment.pk }}/"
+                        >
+                            edit
+                        </a>
+                        <a
+                            role="button"
+                            href="#"
+                            id="comment-{{ comment.pk }}-delete-modal-btn"
+                            class="btn btn-sm btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteCommentModal-{{ comment.pk }}"
+                        >
+                            delete
+                        </a>
+                    </div>
+
+                    <!-- Modal -->
+                    <div
+                        class="modal fade"
+                        id="deleteCommentModal-{{ comment.pk }}"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="deleteCommentModalLabel"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog" rold="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteModalLabel">
+                                        Are you Sure?
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        <span area-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <del>{{ comment | linebreaks }}</del>
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="ms-3">
-                        <div class="fw-bold">{{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted">{{ comment.created_at }}</small>
+                        <div>
+                            <div class="fw-bold">
+                                {{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted"
+                                    >{{ comment.created_at }}</small
+                                >
+                            </div>
                             <p>
                                 {{ comment.content | linebreaks }}
                             </p>
-                            <br/>
+                            {% if comment.created_at != comment.updated_at %}
+                            <p class="text-muted float-end">
+                                <small>Updated: {{ comment.updated_at }}</small>
+                            </p>
+                            {% endif %}
+                            <br />
                         </div>
                     </div>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
-            <hr/>
+            <hr />
         </div>
     </section>
 </div>
