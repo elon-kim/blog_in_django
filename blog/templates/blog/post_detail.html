@@ -111,7 +111,7 @@
                 </a>
                 {% endif %}
                 <!-- Single comment-->
-                {% if post.comment_set.exists %}
+                {% if post.comment_set.exists %} 
                 {% for comment in post.comment_set.iterator %}
                 <div class="d-flex media" id="comment-{{ comment.pk }}">
                     <img
@@ -121,93 +121,102 @@
                         width="60px"
                         height="60px"
                     />
-                    {% if user.is_authenticated %}
+                    <div class="flex-grow-1">
+                    {% if user.is_authenticated %} 
                     {% if comment.author == user or user.is_superuser %}
-                    <div class="media-body flex-grow-1"> 
-                    <div class="float-end">
-                        <a
-                            role="button"
-                            class="btn btn-sm btn-info"
-                            id="comment-{{ comment.pk }}-update-btn"
-                            href="/blog/update_comment/{{ comment.pk }}/"
-                        >
-                            edit
-                        </a>
-                        <a
-                            role="button"
-                            href="#"
-                            id="comment-{{ comment.pk }}-delete-modal-btn"
-                            class="btn btn-sm btn-danger"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteCommentModal-{{ comment.pk }}"
-                        >
-                            delete
-                        </a>
-                    </div>
+                    <div class="media-body">
+                        <div class="float-end">
+                            <a
+                                role="button"
+                                class="btn btn-sm btn-info"
+                                id="comment-{{ comment.pk }}-update-btn"
+                                href="/blog/update_comment/{{ comment.pk }}/"
+                            >
+                                edit
+                            </a>
+                            <a
+                                role="button"
+                                href="#"
+                                id="comment-{{ comment.pk }}-delete-modal-btn"
+                                class="btn btn-sm btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteCommentModal-{{ comment.pk }}"
+                            >
+                                delete
+                            </a>
+                        </div>
 
-                    <!-- Modal -->
-                    <div
-                        class="modal fade"
-                        id="deleteCommentModal-{{ comment.pk }}"
-                        tabindex="-1"
-                        role="dialog"
-                        aria-labelledby="deleteCommentModalLabel"
-                        aria-hidden="true"
-                    >
-                        <div class="modal-dialog" rold="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="deleteModalLabel">
-                                        Are you Sure?
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        <span area-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <del>{{ comment | linebreaks }}</del>
-                                </div>
-                                <div class="modal-footer">
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary"
-                                        data-bs-dismiss="modal"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                        <!-- Modal -->
+                        <div
+                            class="modal fade"
+                            id="deleteCommentModal-{{ comment.pk }}"
+                            tabindex="-1"
+                            role="dialog"
+                            aria-labelledby="deleteCommentModalLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog" rold="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">
+                                            Are you Sure?
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                        >
+                                            <span area-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <del>{{ comment | linebreaks }}</del>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-bs-dismiss="modal"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <a
+                                            role="button"
+                                            class="btn btn-danger"
+                                            href="/blog/delete_comment/{{ comment.pk }}/"
+                                            >Delete</a
+                                        >
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% endif %}
-                    {% endif %}
-                    <div class="ms-0">
-                        <div>
-                            <div class="fw-bold">
-                                {{ comment.author.username }} &nbsp;&nbsp;<small class="text-muted"
-                                    >{{ comment.created_at }}</small
-                                >
+                        {% endif %} 
+                        {% endif %}
+                        <div class="ms-0">
+                            <div>
+                                <div class="fw-bold">
+                                    {{ comment.author.username }} &nbsp;&nbsp;<small
+                                        class="text-muted"
+                                        >{{ comment.created_at }}</small
+                                    >
+                                </div>
+                                <p>
+                                    {{ comment.content | linebreaks }}
+                                </p>
+                                {% if comment.created_at != comment.updated_at %}
+                                <p class="text-muted float-end">
+                                    <small>Updated: {{ comment.updated_at }}</small>
+                                </p>
+                                {% endif %}
+                                <br />
+                                <br/>
                             </div>
-                            <p>
-                                {{ comment.content | linebreaks }}
-                            </p>
-                            {% if comment.created_at != comment.updated_at %}
-                            <p class="text-muted float-end">
-                                <small>Updated: {{ comment.updated_at }}</small>
-                            </p>
-                            {% endif %}
-                            <br />
                         </div>
                     </div>
                     </div>
-                </div>
                 {% endfor %}
+                </div>
                 {% endif %}
             </div>
             <hr />
